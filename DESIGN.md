@@ -21,24 +21,24 @@ Print them with: `python3 -c "import json;[print(s['id'],s['shot_size'],'|',s['r
 
 ## 3. User test 1: the radio cut (narration + temp music on black)
 
-Build: `make radio` -> `outputs/final/radio_cut.mp4`. Commit hash of storyboard tested: TODO
+Build: `make radio` -> `outputs/final/radio_cut.mp4`. Commit hash of storyboard tested: `3eb6789`
 
 | # | Who (relationship to the audience) | Where / how (in person, Slack, voice note) | What they said / where they reacted (their words) | What I heard |
 |---|---|---|---|---|
-| 1 | TODO | | | |
-| 2 | TODO | | | |
-| 3 | TODO | | | |
+| 1 | Roble (friend, target audience) | Telegram | "It is good." | Pacing and overall story landed without confusion. |
+| 2 | Tesfa (friend, target audience) | Telegram | "Also it is very good, keep it up." | Tone and encouragement message resonated positively. |
+| 3 | Yaread (friend, native Amharic speaker) | Telegram | "It is good, but fix the word issue: instead of 'ችግሮችን' it would be better to say 'ችግሮች'." | Grammatical phrasing in the opening line sounded unnatural with the accusative suffix `-ን` before `ያጋጠመው`. |
 
 Questions I asked (keep them neutral and the same for everyone): "What was this about?", "Where did you lose interest?",
 "What did you feel at the end?", "Was any word or name unclear?", "What would you cut?"
 
-**Insights (what repeated):** TODO
+**Insights (what repeated):** All three listeners understood the story and responded warmly to the pacing and tone, while a native-speaker listen caught an unnatural Amharic suffix in the opening sentence (`s01`) that only stood out when heard aloud.
 
 **What I changed because of it (storyboard diff):**
 
 | Change | Shot(s) | Which comment caused it | Commit |
 |---|---|---|---|
-| TODO | | | |
+| Changed narration text from `"አንድ ወቅት ብዙ ችግሮችን ያጋጠመው ወጣት ነበር።"` to `"አንድ ወቅት ብዙ ችግሮች ያጋጠመው ወጣት ነበር።"` | `s01` | Yaread's comment on `"ችግሮችን"` vs `"ችግሮች"` | pending commit after `s01` regeneration |
 
 ## 4. User test 2: the near-final cut (both formats, score, subtitles)
 
@@ -63,4 +63,4 @@ person every time, did you notice the AI end card?
 
 ## 5. Native-speaker check of the narration
 
-Who listened: TODO. Mispronounced names/words and the fix: TODO (also record in FAILURES.md if the model got your language wrong).
+Who listened: Myself (native Amharic speaker) and Yaread (friend, Telegram). Mispronounced names/words and the fix: Earlier `F01`/`F02` pipeline issues (English style prompt spoken aloud and trailing C2PA bytes played as noise) were fixed before testing; in User Test 1, Yaread caught `"ችግሮችን"` sounding unnatural before `"ያጋጠመው"` in `s01`, fixed to `"ችግሮች"` in `storyboard.json`.
