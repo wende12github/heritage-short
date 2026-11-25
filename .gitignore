@@ -1,0 +1,13 @@
+.env
+*.key
+__pycache__/
+*.pyc
+.venv/
+.venv
+# generated scratch
+outputs/tmp/
+outputs/mix/*_raw.wav
+outputs/segments/
+outputs/kaggle/*.zip
+# Keep everything else in outputs/ (frames, audio, clips, final cut) so a run can be inspected.
+# If a file exceeds GitHub's 100 MB limit use Git LFS or host it and link it from the README.

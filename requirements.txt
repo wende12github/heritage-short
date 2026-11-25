@@ -1,0 +1,6 @@
+requests>=2.31
+pillow>=10.0
+numpy>=1.26
+jsonschema>=4.20      # optional: a built-in fallback validator is used if absent
+# System dependency (not pip): FFmpeg with libass + freetype (ffmpeg -filters | grep -E "ass|loudnorm|sidechaincompress")
+# GPU notebooks install their own packages (see notebooks/).
