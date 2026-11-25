@@ -14,15 +14,16 @@
     "needs_native_review": true
   },
   "style": {
-    "style_block": "warm cinematic hand-painted gouache illustration, soft paper grain, atmospheric indoor lamp light transitioning to golden dawn, earthy ochre, deep indigo and warm amber palette, gentle brush texture, main subject centered in the frame",
-    "negative": "text, letters, watermark, signature, extra fingers, distorted face, neon colors, harsh CGI"
+    "style_block": "cinematic 35mm live-action film still, photorealistic, natural skin texture, shallow depth of field, warm tungsten indoor lamp light transitioning to soft golden dawn, moody indigo and warm amber tones, realistic photography, main subject centered in the frame",
+    "negative": "cartoon, illustration, anime, painting, drawing, 3d render, text, letters, watermark, signature, extra fingers, distorted face"
   },
   "characters": [
     {
       "id": "yonas",
       "name": "Yonas",
-      "description": "a young Ethiopian man in his early twenties, warm brown skin, short curly black hair, tired yet earnest dark eyes, wearing an olive knit sweater over a cream cotton shirt",
-      "real_person": false
+      "description": "a young Ethiopian man in his mid-twenties, warm medium-brown skin, short tight curly black Afro hair with cleanly tapered sides, dark expressive eyebrows, thin neat mustache and light chin stubble, wearing a charcoal-black pullover hoodie over a white crew-neck t-shirt",
+      "real_person": false,
+      "golden_reference": "outputs/reference/yonas_1.jpg"
     }
   ],
   "config": {

@@ -1,4 +1,49 @@
 {
+  "keyframe/s01": {
+    "hash": "ad346af686070e1b",
+    "path": "outputs/keyframes/s01.jpg",
+    "ts": "2026-11-26T00:41:47"
+  },
+  "keyframe/s02": {
+    "hash": "c0e315d7a50e3b63",
+    "path": "outputs/keyframes/s02.jpg",
+    "ts": "2026-11-26T00:41:56"
+  },
+  "keyframe/s03": {
+    "hash": "23e448d1b6e12ab5",
+    "path": "outputs/keyframes/s03.jpg",
+    "ts": "2026-11-26T00:42:04"
+  },
+  "keyframe/s04": {
+    "hash": "f06594d9d44ad667",
+    "path": "outputs/keyframes/s04.jpg",
+    "ts": "2026-11-26T00:42:12"
+  },
+  "keyframe/s05": {
+    "hash": "5b62ec943cafd481",
+    "path": "outputs/keyframes/s05.jpg",
+    "ts": "2026-11-26T00:42:17"
+  },
+  "keyframe/s06": {
+    "hash": "aa5bc7352bf75ead",
+    "path": "outputs/keyframes/s06.jpg",
+    "ts": "2026-11-26T00:42:25"
+  },
+  "keyframe/s07": {
+    "hash": "b5f02dbdb5fdca40",
+    "path": "outputs/keyframes/s07.jpg",
+    "ts": "2026-11-26T00:42:34"
+  },
+  "keyframe/s08": {
+    "hash": "76174cccae4b813e",
+    "path": "outputs/keyframes/s08.jpg",
+    "ts": "2026-11-26T00:42:42"
+  },
+  "keyframe/s09": {
+    "hash": "6f777b0859d6bc25",
+    "path": "outputs/keyframes/s09.jpg",
+    "ts": "2026-11-26T00:43:25"
+  },
   "narration/s01": {
     "hash": "22ed60411207939f",
     "path": "outputs/narration/s01.wav",

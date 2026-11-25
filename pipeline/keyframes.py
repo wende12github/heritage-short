@@ -135,8 +135,8 @@ def reference(sb: dict) -> None:
     n = cfg.get("options_per_reference", 4)
     out = C.ensure("reference")
     for ch in sb["characters"]:
-        prompt = (f"character reference sheet, {ch['description']}, standing, neutral plain background, "
-                  f"full body, front view, calm expression. {sb['style']['style_block']}")
+        prompt = (f"character reference portrait, {ch['description']}, standing, neutral plain background, "
+                  f"full body,front view, natural expression. {sb['style']['style_block']}")
         for k in range(n):
             seed = sb["config"]["seed_base"] + 9000 + k
             path = out / f"{ch['id']}_{k + 1}.jpg"
