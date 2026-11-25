@@ -40,8 +40,11 @@ def write_wav(path: Path, arr: np.ndarray) -> None:
 
 
 def write_pcm_wav(path: Path, pcm: bytes, rate: int) -> None:
-    """Write mono 16-bit PCM bytes (what Gemini TTS returns) as a WAV file."""
+    """Write audio bytes from Gemini TTS (raw 16-bit mono PCM or an already-wrapped RIFF/WAVE file)."""
     path.parent.mkdir(parents=True, exist_ok=True)
+    if pcm[:4] == b"RIFF" and pcm[8:12] == b"WAVE":
+        path.write_bytes(pcm)
+        return
     with wave.open(str(path), "wb") as w:
         w.setnchannels(1)
         w.setsampwidth(2)

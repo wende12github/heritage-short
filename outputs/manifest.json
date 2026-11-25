@@ -1,0 +1,47 @@
+{
+  "narration/s01": {
+    "hash": "6c585fdae94a3ddb",
+    "path": "outputs/narration/s01.wav",
+    "ts": "2026-11-25T20:15:53"
+  },
+  "narration/s02": {
+    "hash": "9bdce4b3ae4a0d96",
+    "path": "outputs/narration/s02.wav",
+    "ts": "2026-11-25T20:16:29"
+  },
+  "narration/s03": {
+    "hash": "bb0dab311a1901a2",
+    "path": "outputs/narration/s03.wav",
+    "ts": "2026-11-25T20:16:37"
+  },
+  "narration/s04": {
+    "hash": "d663384ef491f3b7",
+    "path": "outputs/narration/s04.wav",
+    "ts": "2026-11-25T20:51:59"
+  },
+  "narration/s05": {
+    "hash": "8d494a5152653271",
+    "path": "outputs/narration/s05.wav",
+    "ts": "2026-11-25T22:04:32"
+  },
+  "narration/s06": {
+    "hash": "c62f9db4fbdc56a7",
+    "path": "outputs/narration/s06.wav",
+    "ts": "2026-11-25T22:07:29"
+  },
+  "narration/s07": {
+    "hash": "030348c63d2e32a4",
+    "path": "outputs/narration/s07.wav",
+    "ts": "2026-11-25T22:31:24"
+  },
+  "narration/s08": {
+    "hash": "f7a71c6df60a4ec2",
+    "path": "outputs/narration/s08.wav",
+    "ts": "2026-11-25T22:31:54"
+  },
+  "narration/s09": {
+    "hash": "68c9e7f9302643ff",
+    "path": "outputs/narration/s09.wav",
+    "ts": "2026-11-25T22:32:20"
+  }
+}

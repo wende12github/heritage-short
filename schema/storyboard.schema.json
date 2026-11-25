@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Heritage Short storyboard",
+  "description": "The contract between every pipeline stage. Validated before every run.",
+  "type": "object",
+  "required": ["version", "title", "logline", "audience", "language", "style", "characters", "config", "shots", "music", "end_card"],
+  "additionalProperties": false,
+  "properties": {
+    "_note": {"type": "string"},
+    "version": {"type": "integer", "minimum": 1, "maximum": 1},
+    "title": {"type": "string", "minLength": 1},
+    "logline": {"type": "string", "minLength": 10},
+    "audience": {
+      "type": "object",
+      "required": ["who", "where", "feeling_at_end"],
+      "additionalProperties": false,
+      "properties": {
+        "who": {"type": "string", "minLength": 5},
+        "where": {"type": "string", "minLength": 3},
+        "feeling_at_end": {"type": "string", "minLength": 3}
+      }
+    },
+    "language": {
+      "type": "object",
+      "required": ["narration_name", "tts_language_code", "subtitle_language"],
+      "additionalProperties": false,
+      "properties": {
+        "narration_name": {"type": "string"},
+        "tts_language_code": {"type": "string", "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$"},
+        "subtitle_language": {"type": "string"},
+        "needs_native_review": {"type": "boolean"}
+      }
+    },
+    "style": {
+      "type": "object",
+      "required": ["style_block"],
+      "additionalProperties": false,
+      "properties": {
+        "style_block": {"type": "string", "minLength": 10},
+        "negative": {"type": "string"}
+      }
+    },
+    "characters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "description", "real_person"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "name": {"type": "string"},
+          "description": {"type": "string", "minLength": 10},
+          "real_person": {"type": "boolean"},
+          "consent_ref": {"type": "string", "pattern": "^CONSENT-[0-9]{3}$"},
+          "golden_reference": {"type": "string"}
+        }
+      }
+    },
+    "config": {
+      "type": "object",
+      "required": ["seed_base", "keyframe", "video", "tts", "mix", "output"],
+      "additionalProperties": false,
+      "properties": {
+        "seed_base": {"type": "integer", "minimum": 0},
+        "keyframe": {
+          "type": "object",
+          "required": ["backend", "model", "steps"],
+          "additionalProperties": false,
+          "properties": {
+            "backend": {"type": "string", "enum": ["cloudflare"]},
+            "model": {"type": "string"},
+            "steps": {"type": "integer", "minimum": 1, "maximum": 50},
+            "width": {"type": "integer", "minimum": 256},
+            "height": {"type": "integer", "minimum": 256},
+            "send_seed": {"type": "boolean"},
+            "sleep_between_s": {"type": "number", "minimum": 0},
+            "options_per_reference": {"type": "integer", "minimum": 1, "maximum": 8}
+          }
+        },
+        "video": {
+          "type": "object",
+          "required": ["model", "width", "height", "num_frames", "steps", "fps"],
+          "additionalProperties": false,
+          "properties": {
+            "model": {"type": "string"},
+            "width": {"type": "integer", "minimum": 256},
+            "height": {"type": "integer", "minimum": 256},
+            "num_frames": {"type": "integer", "minimum": 5},
+            "steps": {"type": "integer", "minimum": 1},
+            "guidance_scale": {"type": "number"},
+            "fps": {"type": "integer", "minimum": 8, "maximum": 60},
+            "dtype": {"type": "string", "enum": ["bfloat16", "float16"]},
+            "negative_prompt": {"type": "string"}
+          }
+        },
+        "tts": {
+          "type": "object",
+          "required": ["model", "voice"],
+          "additionalProperties": false,
+          "properties": {
+            "model": {"type": "string"},
+            "voice": {"type": "string"},
+            "style_instruction": {"type": "string"},
+            "sleep_between_s": {"type": "number", "minimum": 0}
+          }
+        },
+        "mix": {
+          "type": "object",
+          "required": ["target_lufs", "true_peak_db"],
+          "additionalProperties": false,
+          "properties": {
+            "narration_prelevel_lufs": {"type": "number"},
+            "music_prelevel_lufs": {"type": "number"},
+            "duck_threshold": {"type": "number"},
+            "duck_ratio": {"type": "number"},
+            "duck_attack_ms": {"type": "number"},
+            "duck_release_ms": {"type": "number"},
+            "target_lufs": {"type": "number"},
+            "true_peak_db": {"type": "number"},
+            "lra": {"type": "number"}
+          }
+        },
+        "output": {
+          "type": "object",
+          "required": ["fps"],
+          "additionalProperties": false,
+          "properties": {
+            "fps": {"type": "integer"},
+            "lead_in_s": {"type": "number", "minimum": 0},
+            "tail_s": {"type": "number", "minimum": 0},
+            "subtitle_max_chars": {"type": "integer", "minimum": 20, "maximum": 60},
+            "dry_run_scale": {"type": "number", "minimum": 0.1, "maximum": 1}
+          }
+        }
+      }
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": ["id", "reason", "shot_size", "duration_s", "characters", "keyframe_prompt", "motion_prompt", "camera", "narration", "music_cue"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^s[0-9]{2}$"},
+          "reason": {"type": "string", "minLength": 10},
+          "shot_size": {"type": "string", "enum": ["extreme_wide", "wide", "medium", "medium_close", "close", "extreme_close", "insert"]},
+          "duration_s": {"type": "number", "minimum": 3, "maximum": 12},
+          "characters": {"type": "array", "items": {"type": "string"}},
+          "keyframe_prompt": {"type": "string", "minLength": 10},
+          "motion_prompt": {"type": "string", "minLength": 5},
+          "camera": {"type": "string", "enum": ["static", "push_in", "pull_out", "pan_left", "pan_right", "tilt_up", "tilt_down"]},
+          "seed": {"type": "integer", "minimum": 0},
+          "narration": {
+            "type": "object",
+            "required": ["text", "translation_en"],
+            "additionalProperties": false,
+            "properties": {
+              "text": {"type": "string", "minLength": 1},
+              "translation_en": {"type": "string", "minLength": 1}
+            }
+          },
+          "music_cue": {"type": "string"}
+        }
+      }
+    },
+    "music": {
+      "type": "object",
+      "required": ["cues"],
+      "additionalProperties": false,
+      "properties": {
+        "candidates_per_cue": {"type": "integer", "minimum": 1, "maximum": 8},
+        "crossfade_s": {"type": "number", "minimum": 0},
+        "cues": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "start_shot", "end_shot", "intent", "caption", "bpm", "key", "instrumental"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string"},
+              "start_shot": {"type": "string", "pattern": "^s[0-9]{2}$"},
+              "end_shot": {"type": "string", "pattern": "^s[0-9]{2}$"},
+              "intent": {"type": "string", "minLength": 5},
+              "caption": {"type": "string", "minLength": 10},
+              "bpm": {"type": "integer", "minimum": 40, "maximum": 200},
+              "key": {"type": "string"},
+              "instrumental": {"type": "boolean"},
+              "duration_s": {"type": "number", "minimum": 10, "maximum": 120}
+            }
+          }
+        }
+      }
+    },
+    "end_card": {
+      "type": "object",
+      "required": ["lines", "duration_s"],
+      "additionalProperties": false,
+      "properties": {
+        "lines": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "duration_s": {"type": "number", "minimum": 2, "maximum": 6}
+      }
+    }
+  }
+}

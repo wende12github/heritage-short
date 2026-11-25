@@ -1,0 +1,272 @@
+{
+  "version": 1,
+  "title": "ተስፋ አለመቁረጥ (Never Give Up)",
+  "logline": "After repeated failures leave a young Ethiopian man ready to quit late at night, a close friend's remembered encouragement helps him begin again at dawn.",
+  "audience": {
+    "who": "Young Ethiopians in their teens and twenties who feel discouraged when hard work does not pay off right away",
+    "where": "On a phone, vertical 9:16, in Telegram/WhatsApp groups, TikTok, and YouTube Shorts",
+    "feeling_at_end": "Quiet relief and renewed courage: falling is part of the journey, and tomorrow is worth trying again"
+  },
+  "language": {
+    "narration_name": "Amharic",
+    "tts_language_code": "am-ET",
+    "subtitle_language": "English",
+    "needs_native_review": true
+  },
+  "style": {
+    "style_block": "warm cinematic hand-painted gouache illustration, soft paper grain, atmospheric indoor lamp light transitioning to golden dawn, earthy ochre, deep indigo and warm amber palette, gentle brush texture, main subject centered in the frame",
+    "negative": "text, letters, watermark, signature, extra fingers, distorted face, neon colors, harsh CGI"
+  },
+  "characters": [
+    {
+      "id": "yonas",
+      "name": "Yonas",
+      "description": "a young Ethiopian man in his early twenties, warm brown skin, short curly black hair, tired yet earnest dark eyes, wearing an olive knit sweater over a cream cotton shirt",
+      "real_person": false
+    }
+  ],
+  "config": {
+    "seed_base": 2000,
+    "keyframe": {
+      "backend": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-1-schnell",
+      "steps": 4,
+      "width": 1024,
+      "height": 1024,
+      "send_seed": true,
+      "sleep_between_s": 1.0,
+      "options_per_reference": 4
+    },
+    "video": {
+      "model": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
+      "width": 480,
+      "height": 480,
+      "num_frames": 81,
+      "steps": 30,
+      "guidance_scale": 5.0,
+      "fps": 24,
+      "dtype": "bfloat16",
+      "negative_prompt": "blurry, distorted face, extra limbs, flicker, text, watermark, fast motion"
+    },
+    "tts": {
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Charon",
+      "style_instruction": "warm, gentle, sincere, unhurried storytelling",
+      "sleep_between_s": 21.0
+    },
+    "mix": {
+      "narration_prelevel_lufs": -16,
+      "music_prelevel_lufs": -20,
+      "duck_threshold": 0.02,
+      "duck_ratio": 6,
+      "duck_attack_ms": 300,
+      "duck_release_ms": 1500,
+      "target_lufs": -14,
+      "true_peak_db": -1,
+      "lra": 11
+    },
+    "output": {
+      "fps": 24,
+      "lead_in_s": 0.5,
+      "tail_s": 0.7,
+      "subtitle_max_chars": 40,
+      "dry_run_scale": 0.5
+    }
+  },
+  "shots": [
+    {
+      "id": "s01",
+      "reason": "Establish the quiet, heavy late-night mood and small room before focusing closely on Yonas.",
+      "shot_size": "wide",
+      "duration_s": 7,
+      "characters": [
+        "yonas"
+      ],
+      "keyframe_prompt": "wide shot of {yonas} sitting alone at a wooden desk in a small room at night, rain streaks on the dark window behind him, single warm amber desk lamp glowing over scattered papers, centered composition",
+      "motion_prompt": "raindrops slide slowly down the dark window, warm lamp light flickers softly",
+      "camera": "push_in",
+      "seed": 2001,
+      "narration": {
+        "text": "አንድ ወቅት ብዙ ችግሮችን ያጋጠመው ወጣት ነበር።",
+        "translation_en": "Once, there was a young man who faced many struggles."
+      },
+      "music_cue": "c1"
+    },
+    {
+      "id": "s02",
+      "reason": "Make his repeated failure tangible through an insert of crumpled paper and cold tea rather than abstract words.",
+      "shot_size": "insert",
+      "duration_s": 7,
+      "characters": [],
+      "keyframe_prompt": "close insert view of crumpled paper balls, a worn pencil, an open blank notebook, and a small glass cup of cold tea on a wooden desk under warm amber lamp light, centered",
+      "motion_prompt": "steam is gone, gentle shadow moves across the desk papers",
+      "camera": "static",
+      "seed": 2002,
+      "narration": {
+        "text": "ምንም ያህል ቢሞክር፣ ነገሮች እንደፈለገው አይሳኩለትም።",
+        "translation_en": "No matter how hard he tried, nothing worked out as he hoped."
+      },
+      "music_cue": "c1"
+    },
+    {
+      "id": "s03",
+      "reason": "Show physical exhaustion and emotional defeat as he closes the notebook.",
+      "shot_size": "medium",
+      "duration_s": 7,
+      "characters": [
+        "yonas"
+      ],
+      "keyframe_prompt": "medium shot of {yonas} leaning back from his desk, one hand resting heavily on a closed notebook, eyes lowered in quiet discouragement, deep indigo night shadows and warm lamp light on one side",
+      "motion_prompt": "he exhales slowly and lowers his head slightly",
+      "camera": "static",
+      "seed": 2003,
+      "narration": {
+        "text": "ቀስ በቀስም ተስፋ መቁረጥ ጀመረ።",
+        "translation_en": "Little by little, he began to lose hope."
+      },
+      "music_cue": "c1"
+    },
+    {
+      "id": "s04",
+      "reason": "The emotional low point: he admits he wants to quit, framed tightly on his face with the phone/note nearby.",
+      "shot_size": "medium_close",
+      "duration_s": 8,
+      "characters": [
+        "yonas"
+      ],
+      "keyframe_prompt": "medium close-up of {yonas} looking down toward a small phone resting on the wooden desk, weary vulnerable expression, soft warm glow from the screen and lamp on his face, centered",
+      "motion_prompt": "his eyes blink slowly, small tired nod as he speaks softly",
+      "camera": "push_in",
+      "seed": 2004,
+      "narration": {
+        "text": "ለቅርብ ወዳጁም፦ ከእንግዲህ መሞከር አልፈልግም አለው።",
+        "translation_en": "To his close friend he said: I do not want to try anymore."
+      },
+      "music_cue": "c1"
+    },
+    {
+      "id": "s05",
+      "reason": "Pause for the friend's patient listening without adding a second face, protecting single-character visual consistency.",
+      "shot_size": "close",
+      "duration_s": 7,
+      "characters": [],
+      "keyframe_prompt": "close view of rain-streaked glass window at night with soft blurred amber city lights outside and a warm reflection of the desk lamp inside, calm quiet stillness, centered",
+      "motion_prompt": "raindrops trickle gently down the glass, distant warm lights shimmer softly",
+      "camera": "pan_right",
+      "seed": 2005,
+      "narration": {
+        "text": "ጓደኛውም በጥሞና አዳምጦ እንዲህ አለው፦",
+        "translation_en": "His friend listened carefully and told him:"
+      },
+      "music_cue": "c1"
+    },
+    {
+      "id": "s06",
+      "reason": "Deliver the turning insight—falling is a teacher—as music warms and tension starts to lift.",
+      "shot_size": "medium_close",
+      "duration_s": 8,
+      "characters": [
+        "yonas"
+      ],
+      "keyframe_prompt": "medium close-up of {yonas} listening intently by the window, shoulders relaxing, soft blue pre-dawn light meeting warm amber indoor light on his face, centered",
+      "motion_prompt": "gentle breath, soft light shifts warmly across his face",
+      "camera": "push_in",
+      "seed": 2006,
+      "narration": {
+        "text": "ስኬት ሁልጊዜ ማሸነፍ አይደለም፤ መውደቅም የሕይወት ትምህርት ነው።",
+        "translation_en": "Success is not always winning; falling is also life's lesson."
+      },
+      "music_cue": "c2"
+    },
+    {
+      "id": "s07",
+      "reason": "Visual metaphor for tomorrow's new chance: dawn light breaking through the window as the core encouragement lands.",
+      "shot_size": "medium",
+      "duration_s": 8,
+      "characters": [
+        "yonas"
+      ],
+      "keyframe_prompt": "medium shot of {yonas} standing by the window watching thin white cotton curtains catch golden morning sunrise light, peaceful hopeful posture, centered",
+      "motion_prompt": "curtains sway very gently in a morning breeze, warm sunlight brightens the room",
+      "camera": "pan_left",
+      "seed": 2007,
+      "narration": {
+        "text": "ዛሬ ባይሳካም ነገ አዲስ ዕድል ይመጣል፤ አንተ ጠንካራ ነህ።",
+        "translation_en": "Even if today failed, tomorrow brings a new chance; you are strong."
+      },
+      "music_cue": "c2"
+    },
+    {
+      "id": "s08",
+      "reason": "Payoff in character expression: a quiet smile and the decision to pick up the pen again.",
+      "shot_size": "close",
+      "duration_s": 7,
+      "characters": [
+        "yonas"
+      ],
+      "keyframe_prompt": "close-up portrait of {yonas} at his desk in warm morning sunlight with a gentle determined smile, opening a clean notebook page, shallow depth of field, face centered",
+      "motion_prompt": "soft genuine smile forms, gentle blink, slight forward lean",
+      "camera": "push_in",
+      "seed": 2008,
+      "narration": {
+        "text": "ወጣቱም በጥቂቱ ፈገግ አለና እንደገና መሞከር ጀመረ።",
+        "translation_en": "The young man smiled softly and began to try again."
+      },
+      "music_cue": "c2"
+    },
+    {
+      "id": "s09",
+      "reason": "Closing wide image echoes s01 in bright morning light, leaving the audience with hope and a new beginning.",
+      "shot_size": "wide",
+      "duration_s": 8,
+      "characters": [
+        "yonas"
+      ],
+      "keyframe_prompt": "wide shot of {yonas} sitting at his tidy wooden desk bathed in golden morning sunbeams pouring through the open window, writing calmly in his notebook, warm uplifting atmosphere, centered",
+      "motion_prompt": "sunlight streams softly across the desk, dust motes float gently",
+      "camera": "pull_out",
+      "seed": 2009,
+      "narration": {
+        "text": "ውድቀት መጨረሻ አይደለም፤ ተስፋ እስካለ አዲስ ጅማሬ አለ።",
+        "translation_en": "Failure is not the end; as long as there is hope, there is a new beginning."
+      },
+      "music_cue": "c2"
+    }
+  ],
+  "music": {
+    "candidates_per_cue": 3,
+    "crossfade_s": 1.5,
+    "cues": [
+      {
+        "id": "c1",
+        "start_shot": "s01",
+        "end_shot": "s05",
+        "intent": "Quiet, reflective night mood under narration; sparse so the voice stays clear",
+        "caption": "gentle melancholic instrumental, soft felt piano, warm sustained strings pad, sparse acoustic guitar harmonics, unhurried and intimate, no drums",
+        "bpm": 68,
+        "key": "D minor",
+        "instrumental": true,
+        "duration_s": 40
+      },
+      {
+        "id": "c2",
+        "start_shot": "s06",
+        "end_shot": "s09",
+        "intent": "Warm dawn shift into hopeful, steady encouragement without overpowering the ending lines",
+        "caption": "warm hopeful instrumental, gentle acoustic guitar, soft wooden flute, rising warm strings pad, calm uplifting morning mood, light pulse, resolves peacefully",
+        "bpm": 76,
+        "key": "F major",
+        "instrumental": true,
+        "duration_s": 40
+      }
+    ]
+  },
+  "end_card": {
+    "lines": [
+      "Made with AI",
+      "Images, motion, voice and music generated with AI models.",
+      "Written and directed by me."
+    ],
+    "duration_s": 3
+  }
+}
