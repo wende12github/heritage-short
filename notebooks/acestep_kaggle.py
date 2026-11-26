@@ -1,54 +1,105 @@
 # %% [markdown]
 # # ACE-Step 1.5 score candidates on Kaggle/Colab
 #
-# 1. On your machine: `python -m pipeline.music plan`, upload `outputs/kaggle/music_jobs.json` to the notebook.
-# 2. Run this file; it writes <cue>_candN.wav + .json to ./candidates/.
+# 1. On your machine: `python -m pipeline.music plan`, upload `outputs/kaggle/` as a Kaggle dataset.
+# 2. Run this file; it writes <cue>_candN.wav + .json to /kaggle/working/candidates/.
 # 3. Download, then `python -m pipeline.music register candidates/*.wav`, listen to them quietly UNDER the
 #    narration, and `python -m pipeline.music choose c1 candidates/c1_cand2.wav --why "..."`.
 #
-# UNVERIFIED: the Python call in `generate()` is written against ACE-Step's documented pipeline interface
-# (ACEStepPipeline: prompt, lyrics, audio_duration, infer_step, guidance_scale, manual_seeds). Version 1.5 may
-# have changed names/arguments. Read https://github.com/ACE-Step/ACE-Step-1.5 and adapt ONLY that function.
-# If it fights you, use the repo's own Gradio UI/CLI with the same captions from music_jobs.json, name the WAVs
-# <cue>_candN.wav and carry on from step 3. Record what happened in FAILURES.md either way.
-# Tempo and key go in their own fields, not in the caption. Keep instrumental=True for a score.
+# Adapted for Kaggle Python 3.13 (creates a Python 3.11 venv via `uv`) and ACE-Step 1.5's
+# AceStepHandler + GenerationParams + GenerationConfig + generate_music API (no LLM planner needed).
 # %%
-import json, subprocess, sys, time
+import json
+import os
+import shutil
+import subprocess
+import sys
+import time
 from pathlib import Path
 
-JOBS = Path("music_jobs.json")
-OUT = Path("candidates"); OUT.mkdir(exist_ok=True)
-STEPS = 8   # 1.5 is distilled; adjust to the repo's recommended steps
+JOBS = next(Path("/kaggle/input").rglob("music_jobs.json"), Path("music_jobs.json")) if Path("/kaggle/input").exists() else Path("music_jobs.json")
+OUT = Path("/kaggle/working/candidates") if Path("/kaggle/working").exists() else Path("candidates")
+OUT.mkdir(parents=True, exist_ok=True)
+REPO = Path("ACE-Step-1.5").resolve()
+VENV_PY = Path(".acestep_venv/bin/python").absolute()  # keep venv symlink intact so pyvenv.cfg activates!
+STEPS = 8
 
 
-def setup():
-    if not Path("ACE-Step-1.5").exists():
-        subprocess.run(["git", "clone", "--depth", "1", "https://github.com/ACE-Step/ACE-Step-1.5"], check=True)
-    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-e", "ACE-Step-1.5"], check=True)
+WORKER_CODE = r'''
+import json, shutil, sys, time
+from pathlib import Path
+import torch
+from acestep.handler import AceStepHandler
+from acestep.inference import GenerationConfig, GenerationParams, generate_music
+
+jobs_path = Path(sys.argv[1])
+out_dir = Path(sys.argv[2])
+repo_dir = Path(sys.argv[3])
+steps = int(sys.argv[4])
+
+dit = AceStepHandler()
+dit.initialize_service(project_root=str(repo_dir), config_path="acestep-v15-turbo", device="cuda", offload_to_cpu=True)
+gpu = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu"
+
+tmp_dir = out_dir / "_tmp"
+tmp_dir.mkdir(parents=True, exist_ok=True)
+
+for job in json.loads(jobs_path.read_text())["jobs"]:
+    wav = out_dir / f"{job['candidate']}.wav"
+    if wav.exists():
+        print(f"[{job['candidate']}] already done, skipping")
+        continue
+    params = GenerationParams(
+        caption=job["caption"],
+        lyrics="[Instrumental]" if job.get("instrumental", True) else "",
+        bpm=int(job["bpm"]),
+        keyscale=job.get("key", "auto"),
+        duration=int(job["duration_s"]),
+        inference_steps=steps,
+        seed=int(job["seed"]),
+        thinking=False,
+    )
+    cfg = GenerationConfig(batch_size=1, audio_format="wav", use_random_seed=False, seeds=[int(job["seed"])])
+    t0 = time.time()
+    res = generate_music(dit_handler=dit, llm_handler=None, params=params, config=cfg, save_dir=str(tmp_dir))
+    dt = time.time() - t0
+    if not res.success or not res.audios:
+        raise RuntimeError(f"{job['candidate']} failed: {res.error}")
+    gen_path = Path(res.audios[0]["path"])
+    shutil.move(str(gen_path), str(wav))
+    wav.with_suffix(".json").write_text(json.dumps({
+        "model": "ACE-Step-1.5",
+        "caption": job["caption"],
+        "bpm": job["bpm"],
+        "key": job["key"],
+        "seed": job["seed"],
+        "steps": steps,
+        "gpu": gpu,
+        "latency_s": round(dt, 1),
+        "gpu_minutes": round(dt / 60, 2),
+    }, indent=2))
+    print(f"[{job['candidate']}] done in {dt:.0f}s -> {wav}")
+'''
 
 
-def generate(pipe, job, out_path):
-    """ADAPT THIS FUNCTION to the real ACE-Step 1.5 API."""
-    prompt = job["caption"]          # tempo/key: pass job["bpm"], job["key"] via the API's own fields if 1.5 has them
-    lyrics = "[instrumental]" if job["instrumental"] else ""
-    pipe(prompt=prompt, lyrics=lyrics, audio_duration=job["duration_s"], infer_step=STEPS,
-         guidance_scale=15.0, manual_seeds=[job["seed"]], save_path=str(out_path))
+def setup() -> Path:
+    if not REPO.exists():
+        subprocess.run(["git", "clone", "--depth", "1", "https://github.com/ACE-Step/ACE-Step-1.5", str(REPO)], check=True)
+    if sys.version_info < (3, 13):
+        subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-e", str(REPO)], check=True)
+        return Path(sys.executable)
+    if not VENV_PY.exists():
+        subprocess.run([sys.executable, "-m", "pip", "install", "-q", "uv"], check=True)
+        subprocess.run(["uv", "venv", "--python", "3.11", str(VENV_PY.parent.parent)], check=True)
+        subprocess.run(["uv", "pip", "install", "--python", str(VENV_PY), "-e", str(REPO)], check=True)
+    return VENV_PY
 
 
 if __name__ == "__main__":
-    setup()
-    import torch
-    from acestep.pipeline_ace_step import ACEStepPipeline      # name may differ in 1.5
-    pipe = ACEStepPipeline(dtype="bfloat16", torch_compile=False, cpu_offload=True)
-    gpu = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu"
-    for job in json.loads(JOBS.read_text())["jobs"]:
-        wav = OUT / f"{job['candidate']}.wav"
-        if wav.exists():
-            continue
-        t0 = time.time()
-        generate(pipe, job, wav)
-        dt = time.time() - t0
-        wav.with_suffix(".json").write_text(json.dumps({
-            "model": "ACE-Step-1.5", "caption": job["caption"], "bpm": job["bpm"], "key": job["key"], "seed": job["seed"],
-            "steps": STEPS, "gpu": gpu, "latency_s": round(dt, 1), "gpu_minutes": round(dt / 60, 2)}, indent=2))
-        print(job["candidate"], f"{dt:.0f}s")
+    assert JOBS.exists(), f"music_jobs.json not found (checked {JOBS})"
+    py = setup()
+    worker_file = Path("_acestep_worker.py")
+    worker_file.write_text(WORKER_CODE, encoding="utf-8")
+    env = {**os.environ, "MPLBACKEND": "Agg"}
+    subprocess.run([str(py), str(worker_file), str(JOBS.resolve()), str(OUT.resolve()), str(REPO), str(STEPS)], check=True, env=env)
+    print("Done. Download", OUT, "then run: python -m pipeline.music register <dir>/*.wav")

@@ -33,22 +33,41 @@ def judge_one(ref, frame, model: str) -> dict:
     return json.loads(re.sub(r"^```(?:json)?|```$", "", txt.strip(), flags=re.M))
 
 
+FALLBACK_MODELS = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite"]
+
+
 def main() -> None:
     sb = C.load_storyboard()
-    model = os.environ.get("GEMINI_TEXT_MODEL", "gemini-3.8-flash")
+    primary = os.environ.get("GEMINI_TEXT_MODEL", "gemini-3.8-flash")
+    candidates = list(dict.fromkeys([primary, *FALLBACK_MODELS]))
     refs = {c["id"]: C.ROOT / c["golden_reference"] for c in sb["characters"] if c.get("golden_reference")}
     if not refs:
         print("[judge] no golden_reference set. Run `make reference`, pick one, set characters[].golden_reference."); return
+    active_idx = 0
     for shot in sb["shots"]:
         cid = next((c for c in shot["characters"] if c in refs), None)
         frame = C.OUT / "keyframes" / f"{shot['id']}.jpg"
         if not cid or not frame.exists():
             continue
-        t0 = time.time()
-        (res, attempts) = C.with_retries(lambda: judge_one(refs[cid], frame, model), label=f"judge {shot['id']}")
-        C.log_call("judge", model, shot_id=shot["id"], latency_s=time.time() - t0, attempts=attempts,
+        res = attempts = used_model = None
+        last_err: Exception | None = None
+        for idx in range(active_idx, len(candidates)):
+            m = candidates[idx]
+            t0 = time.time()
+            try:
+                (res, attempts) = C.with_retries(lambda m=m: judge_one(refs[cid], frame, m), label=f"judge {shot['id']} ({m})")
+                used_model = m
+                active_idx = idx
+                break
+            except (C.PermanentError, C.QuotaError) as e:
+                last_err = e
+                print(f"[judge] {shot['id']}: {m} failed ({e}); trying fallback..." if idx + 1 < len(candidates) else f"[judge] {shot['id']}: {m} failed ({e})")
+        if res is None or used_model is None:
+            raise last_err or C.PermanentError(f"judge {shot['id']}: all models failed")
+        C.log_call("judge", used_model, shot_id=shot["id"], latency_s=time.time() - t0, attempts=attempts,
                    params={"character": cid}, scores=res, cost_usd=C.price_of("gemini_text", 1))
-        print(f"[judge] {shot['id']}: {res}")
+        print(f"[judge] {shot['id']} ({used_model}): {res}")
+        time.sleep(1.0)
 
 
 if __name__ == "__main__":

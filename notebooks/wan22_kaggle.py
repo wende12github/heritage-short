@@ -17,10 +17,11 @@
 import json, os, subprocess, sys, time
 from pathlib import Path
 
-INPUT = next((p for p in Path("/kaggle/input").glob("*") if (p / "jobs.json").exists()), Path("."))
+INPUT = next((p.parent for p in Path("/kaggle/input").rglob("jobs.json")), Path(".")) if Path("/kaggle/input").exists() else Path(".")
 OUT = Path("/kaggle/working/clips") if Path("/kaggle/working").exists() else Path("clips")
 OUT.mkdir(parents=True, exist_ok=True)
 WORKERS = int(os.environ.get("WAN_WORKERS", "1"))      # 2 = one process per T4 (needs ~2x system RAM)
+MAX_SHOTS = int(os.environ.get("WAN_MAX_SHOTS", "0"))  # set 1 to test one shot first, 0 for all
 
 
 def install():
@@ -33,7 +34,10 @@ def worker(idx: int, n: int):
     from diffusers import WanImageToVideoPipeline
     from diffusers.utils import export_to_video, load_image
 
-    jobs = json.loads((INPUT / "jobs.json").read_text())["jobs"][idx::n]
+    all_jobs = json.loads((INPUT / "jobs.json").read_text())["jobs"]
+    if MAX_SHOTS > 0:
+        all_jobs = all_jobs[:MAX_SHOTS]
+    jobs = all_jobs[idx::n]
     if not jobs:
         return
     v0 = jobs[0]["video"]

@@ -1,0 +1,65 @@
+{
+  "hash": "9e7c27c25a7d4c1c",
+  "jobs": [
+    {
+      "cue": "c1",
+      "candidate": "c1_cand1",
+      "caption": "gentle melancholic instrumental, soft felt piano, warm sustained strings pad, sparse acoustic guitar harmonics, unhurried and intimate, no drums",
+      "bpm": 68,
+      "key": "D minor",
+      "instrumental": true,
+      "duration_s": 40,
+      "seed": 7000
+    },
+    {
+      "cue": "c1",
+      "candidate": "c1_cand2",
+      "caption": "gentle melancholic instrumental, soft felt piano, warm sustained strings pad, sparse acoustic guitar harmonics, unhurried and intimate, no drums",
+      "bpm": 68,
+      "key": "D minor",
+      "instrumental": true,
+      "duration_s": 40,
+      "seed": 7001
+    },
+    {
+      "cue": "c1",
+      "candidate": "c1_cand3",
+      "caption": "gentle melancholic instrumental, soft felt piano, warm sustained strings pad, sparse acoustic guitar harmonics, unhurried and intimate, no drums",
+      "bpm": 68,
+      "key": "D minor",
+      "instrumental": true,
+      "duration_s": 40,
+      "seed": 7002
+    },
+    {
+      "cue": "c2",
+      "candidate": "c2_cand1",
+      "caption": "warm hopeful instrumental, gentle acoustic guitar, soft wooden flute, rising warm strings pad, calm uplifting morning mood, light pulse, resolves peacefully",
+      "bpm": 76,
+      "key": "F major",
+      "instrumental": true,
+      "duration_s": 40,
+      "seed": 7010
+    },
+    {
+      "cue": "c2",
+      "candidate": "c2_cand2",
+      "caption": "warm hopeful instrumental, gentle acoustic guitar, soft wooden flute, rising warm strings pad, calm uplifting morning mood, light pulse, resolves peacefully",
+      "bpm": 76,
+      "key": "F major",
+      "instrumental": true,
+      "duration_s": 40,
+      "seed": 7011
+    },
+    {
+      "cue": "c2",
+      "candidate": "c2_cand3",
+      "caption": "warm hopeful instrumental, gentle acoustic guitar, soft wooden flute, rising warm strings pad, calm uplifting morning mood, light pulse, resolves peacefully",
+      "bpm": 76,
+      "key": "F major",
+      "instrumental": true,
+      "duration_s": 40,
+      "seed": 7012
+    }
+  ]
+}

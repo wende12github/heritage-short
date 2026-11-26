@@ -1,0 +1,11 @@
+{
+  "model": "ACE-Step-1.5",
+  "caption": "gentle melancholic instrumental, soft felt piano, warm sustained strings pad, sparse acoustic guitar harmonics, unhurried and intimate, no drums",
+  "bpm": 68,
+  "key": "D minor",
+  "seed": 7000,
+  "steps": 8,
+  "gpu": "Tesla T4",
+  "latency_s": 14.0,
+  "gpu_minutes": 0.23
+}
