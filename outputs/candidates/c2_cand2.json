@@ -1,0 +1,11 @@
+{
+  "model": "ACE-Step-1.5",
+  "caption": "warm hopeful instrumental, gentle acoustic guitar, soft wooden flute, rising warm strings pad, calm uplifting morning mood, light pulse, resolves peacefully",
+  "bpm": 76,
+  "key": "F major",
+  "seed": 7011,
+  "steps": 8,
+  "gpu": "Tesla T4",
+  "latency_s": 10.3,
+  "gpu_minutes": 0.17
+}

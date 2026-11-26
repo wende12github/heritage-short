@@ -6,6 +6,6 @@
   "seed": 7001,
   "steps": 8,
   "gpu": "Tesla T4",
-  "latency_s": 10.5,
+  "latency_s": 10.2,
   "gpu_minutes": 0.17
 }
