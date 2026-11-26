@@ -1,0 +1,2 @@
+{"cue": "c1", "file": "c1_cand1.wav", "why": "Lowest RMS (0.083, -19.14 LUFS) and smoothest dynamics (LRA 5.3) of the three c1 candidates, leaving clean headroom for the Amharic voice"}
+{"cue": "c2", "file": "c2_cand1.wav", "why": "Warmer, fuller dynamic lift (LRA 12.4) in F major supporting the dawn shift from s06 to the end"}
