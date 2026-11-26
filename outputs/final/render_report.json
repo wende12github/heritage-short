@@ -1,0 +1,10 @@
+{
+  "length_s": 70.0,
+  "files": {
+    "vertical_9x16": "outputs/final/film_vertical_9x16.mp4",
+    "horizontal_16x9": "outputs/final/film_horizontal_16x9.mp4"
+  },
+  "audio_notes": [
+    "final mix: -14.47 LUFS, true peak -0.99 dBTP (targets -14 / -1)"
+  ]
+}

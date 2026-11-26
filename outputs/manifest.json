@@ -88,5 +88,105 @@
     "hash": "68c9e7f9302643ff",
     "path": "outputs/narration/s09.wav",
     "ts": "2026-11-25T22:32:20"
+  },
+  "segment/horizontal_16x9/end_card": {
+    "hash": "a9d709c24b687c8d",
+    "path": "outputs/segments/horizontal_16x9/end_card.mp4",
+    "ts": "2026-11-26T20:46:58"
+  },
+  "segment/horizontal_16x9/s01": {
+    "hash": "64fa97b2ec93d49a",
+    "path": "outputs/segments/horizontal_16x9/s01.mp4",
+    "ts": "2026-11-26T20:46:38"
+  },
+  "segment/horizontal_16x9/s02": {
+    "hash": "3b7203650330acf1",
+    "path": "outputs/segments/horizontal_16x9/s02.mp4",
+    "ts": "2026-11-26T21:29:13"
+  },
+  "segment/horizontal_16x9/s03": {
+    "hash": "6a1bf03f6d761a46",
+    "path": "outputs/segments/horizontal_16x9/s03.mp4",
+    "ts": "2026-11-26T21:29:15"
+  },
+  "segment/horizontal_16x9/s04": {
+    "hash": "16acdfd975797ea0",
+    "path": "outputs/segments/horizontal_16x9/s04.mp4",
+    "ts": "2026-11-26T21:29:16"
+  },
+  "segment/horizontal_16x9/s05": {
+    "hash": "4ee321c15badf643",
+    "path": "outputs/segments/horizontal_16x9/s05.mp4",
+    "ts": "2026-11-26T21:29:18"
+  },
+  "segment/horizontal_16x9/s06": {
+    "hash": "0fdf63b9354bd79d",
+    "path": "outputs/segments/horizontal_16x9/s06.mp4",
+    "ts": "2026-11-26T21:29:19"
+  },
+  "segment/horizontal_16x9/s07": {
+    "hash": "d1c4796bd9fe5917",
+    "path": "outputs/segments/horizontal_16x9/s07.mp4",
+    "ts": "2026-11-26T21:29:21"
+  },
+  "segment/horizontal_16x9/s08": {
+    "hash": "62c5869446f1a2df",
+    "path": "outputs/segments/horizontal_16x9/s08.mp4",
+    "ts": "2026-11-26T21:29:22"
+  },
+  "segment/horizontal_16x9/s09": {
+    "hash": "9044dc57e1e7d716",
+    "path": "outputs/segments/horizontal_16x9/s09.mp4",
+    "ts": "2026-11-26T21:29:23"
+  },
+  "segment/vertical_9x16/end_card": {
+    "hash": "9cdd34177e460ef3",
+    "path": "outputs/segments/vertical_9x16/end_card.mp4",
+    "ts": "2026-11-26T20:46:03"
+  },
+  "segment/vertical_9x16/s01": {
+    "hash": "3f07e8995303b9b6",
+    "path": "outputs/segments/vertical_9x16/s01.mp4",
+    "ts": "2026-11-26T20:45:44"
+  },
+  "segment/vertical_9x16/s02": {
+    "hash": "7d9d9432b8a393df",
+    "path": "outputs/segments/vertical_9x16/s02.mp4",
+    "ts": "2026-11-26T21:28:27"
+  },
+  "segment/vertical_9x16/s03": {
+    "hash": "f1969af2e2b82ff6",
+    "path": "outputs/segments/vertical_9x16/s03.mp4",
+    "ts": "2026-11-26T21:28:28"
+  },
+  "segment/vertical_9x16/s04": {
+    "hash": "b574567d4430121d",
+    "path": "outputs/segments/vertical_9x16/s04.mp4",
+    "ts": "2026-11-26T21:28:30"
+  },
+  "segment/vertical_9x16/s05": {
+    "hash": "11b7645f4fe0eb6b",
+    "path": "outputs/segments/vertical_9x16/s05.mp4",
+    "ts": "2026-11-26T21:28:32"
+  },
+  "segment/vertical_9x16/s06": {
+    "hash": "cfae7ba4090eea4c",
+    "path": "outputs/segments/vertical_9x16/s06.mp4",
+    "ts": "2026-11-26T21:28:34"
+  },
+  "segment/vertical_9x16/s07": {
+    "hash": "e91d71165403a7e9",
+    "path": "outputs/segments/vertical_9x16/s07.mp4",
+    "ts": "2026-11-26T21:28:36"
+  },
+  "segment/vertical_9x16/s08": {
+    "hash": "4dda8fdf01ace107",
+    "path": "outputs/segments/vertical_9x16/s08.mp4",
+    "ts": "2026-11-26T21:28:38"
+  },
+  "segment/vertical_9x16/s09": {
+    "hash": "c98e6bf309aa8733",
+    "path": "outputs/segments/vertical_9x16/s09.mp4",
+    "ts": "2026-11-26T21:28:40"
   }
 }

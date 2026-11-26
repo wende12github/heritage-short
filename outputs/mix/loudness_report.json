@@ -1,0 +1,24 @@
+{
+  "before": {
+    "input_i": -17.26,
+    "input_tp": 0.01,
+    "input_lra": 8.5,
+    "input_thresh": -28.25,
+    "output_i": -14.83,
+    "output_tp": -1.0,
+    "output_lra": 6.7,
+    "output_thresh": -25.63,
+    "target_offset": 0.83
+  },
+  "after": {
+    "input_i": -14.47,
+    "input_tp": -0.99,
+    "input_lra": 6.5,
+    "input_thresh": -25.23,
+    "output_i": -14.24,
+    "output_tp": -1.0,
+    "output_lra": 6.0,
+    "output_thresh": -24.96,
+    "target_offset": 0.24
+  }
+}
