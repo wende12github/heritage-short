@@ -1,9 +1,9 @@
 {
-  "_note": "Fill usd_per_unit from each provider's CURRENT public price page; record date and URL in COSTS.md. null = not filled in yet (counts as 0 in the cost report). Nothing here has been verified.",
-  "gemini_text":     {"unit": "per call (or per 1M tokens: pick one, say which)", "usd_per_unit": null, "source": ""},
-  "gemini_tts":      {"unit": "per call (or per 1M audio tokens)", "usd_per_unit": null, "source": ""},
-  "cloudflare_flux": {"unit": "per image", "usd_per_unit": null, "source": ""},
-  "wan22_gpu":       {"unit": "per GPU-minute on a comparable paid GPU (hourly rental / 60)", "usd_per_unit": null, "source": ""},
-  "acestep_gpu":     {"unit": "per GPU-minute", "usd_per_unit": null, "source": ""},
-  "frontier_video":  {"unit": "per second of video, only if you get frontier access", "usd_per_unit": null, "source": ""}
+  "_note": "List-price equivalents filled from provider public pricing pages on 2026-11-26 (actual spend = $0.00 on free tiers). See COSTS.md for URLs and formulas.",
+  "gemini_text":     {"unit": "per multimodal judge call (~1k input + ~60 output tokens on Flash-Lite)", "usd_per_unit": 0.0005, "source": "https://ai.google.dev/gemini-api/docs/pricing"},
+  "gemini_tts":      {"unit": "per shot (~5s audio = ~125 output tokens at ~$10/1M audio tokens)", "usd_per_unit": 0.00125, "source": "https://ai.google.dev/gemini-api/docs/pricing"},
+  "cloudflare_flux": {"unit": "per 1024x1024 4-step image (~225 Neurons at $0.011/1k Neurons)", "usd_per_unit": 0.0025, "source": "https://developers.cloudflare.com/workers-ai/platform/pricing/"},
+  "wan22_gpu":       {"unit": "per T4 GPU-minute (Modal NVIDIA T4 $0.59/hr / 60)", "usd_per_unit": 0.009833, "source": "https://modal.com/pricing"},
+  "acestep_gpu":     {"unit": "per T4 GPU-minute (Modal NVIDIA T4 $0.59/hr / 60)", "usd_per_unit": 0.009833, "source": "https://modal.com/pricing"},
+  "frontier_video":  {"unit": "per second of video (not used; no frontier access)", "usd_per_unit": null, "source": ""}
 }
