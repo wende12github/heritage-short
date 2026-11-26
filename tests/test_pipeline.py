@@ -105,11 +105,12 @@ class EndToEndDryRun(unittest.TestCase):
         self.assertTrue({"narration", "keyframes", "assemble"} <= kinds)
 
     def test_2_rerun_makes_no_new_model_calls(self):
+        n_shots = len(json.loads((self.tmp / "storyboard.json").read_text(encoding="utf-8"))["shots"])
         before = [r for r in self.runs() if r["stage"] in ("narration", "keyframes")]
         out = self.run_pipeline()
         after = [r for r in self.runs() if r["stage"] in ("narration", "keyframes")]
         self.assertEqual(len(before), len(after), out)
-        self.assertIn("0 generated, 10 cached", out)
+        self.assertIn(f"0 generated, {n_shots} cached", out)
 
     def test_3_editing_one_shot_regenerates_only_that_shot(self):
         sb = json.loads((self.tmp / "storyboard.json").read_text(encoding="utf-8"))
