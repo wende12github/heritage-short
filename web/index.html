@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heritage Short — Film Showcase &amp; Family Studio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">HS</div>
+      <div>
+        <h1 id="film-title">Heritage Short Studio</h1>
+        <small id="server-mode">Loading project state...</small>
+      </div>
+    </div>
+    <nav class="tabs" aria-label="Views">
+      <button class="tab-btn active" data-tab="showcase">Film &amp; Storyboard</button>
+      <button class="tab-btn" data-tab="audio">Reference &amp; Score</button>
+      <button class="tab-btn" data-tab="telemetry">Pipeline Logs</button>
+      <button class="tab-btn" data-tab="family">Tell Your Story</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- TAB 1: Film & Storyboard -->
+    <section id="tab-showcase" class="tab-panel active">
+      <div class="hero-grid">
+        <div class="card player-stage">
+          <div class="aspect-switcher">
+            <button class="pill-btn active" data-video="vertical">9:16 Phone</button>
+            <button class="pill-btn" data-video="horizontal">16:9 Wide</button>
+            <button class="pill-btn" data-video="radio">Radio Cut</button>
+          </div>
+          <div id="video-frame" class="phone-bezel">
+            <div class="empty-player">Loading video...</div>
+          </div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center;">
+            <button id="assemble-btn" class="btn primary" style="display:none;">Assemble Film Now</button>
+            <a id="download-srt" class="btn" href="/outputs/final/film.srt" download style="display:none;">Download Subtitles (.srt)</a>
+          </div>
+          <div id="assemble-status" class="status-banner" style="display:none; width:100%;"></div>
+        </div>
+
+        <div class="card">
+          <div class="badges" id="film-badges"></div>
+          <h2 id="hero-title" style="margin:0 0 0.4rem;">—</h2>
+          <p id="hero-logline" style="color:#d4d4d8; margin:0 0 1rem;"></p>
+
+          <div class="stats-row" id="hero-stats"></div>
+
+          <div style="display:grid; gap:0.75rem; margin-top:1rem;">
+            <div>
+              <strong style="font-size:0.82rem; color:var(--amber);">Audience</strong>
+              <div id="aud-who" style="font-size:0.88rem; color:#d4d4d8;"></div>
+            </div>
+            <div>
+              <strong style="font-size:0.82rem; color:var(--amber);">Where they watch</strong>
+              <div id="aud-where" style="font-size:0.88rem; color:#d4d4d8;"></div>
+            </div>
+            <div>
+              <strong style="font-size:0.82rem; color:var(--amber);">Intended feeling at the end</strong>
+              <div id="aud-feel" style="font-size:0.88rem; color:#d4d4d8;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <h2>Shot-by-Shot Storyboard Contract</h2>
+        <p>Every shot links its keyframe, Amharic narration audio, English subtitle, camera cue, and consistency score.</p>
+      </div>
+      <div class="shot-grid" id="shot-grid"></div>
+    </section>
+
+    <!-- TAB 2: Golden Reference & Score -->
+    <section id="tab-audio" class="tab-panel">
+      <div class="section-head">
+        <h2>Character Reference Sheet (<span id="char-name">Yonas</span>)</h2>
+        <p>4 generated portraits from Cloudflare FLUX; the selected golden reference anchors visual consistency.</p>
+      </div>
+      <div class="ref-strip" id="ref-strip"></div>
+
+      <div class="section-head">
+        <h2>ACE-Step 1.5 Score Candidates</h2>
+        <p>Audition generated cues alongside narration and select the chosen cue for assembly.</p>
+      </div>
+      <div class="music-grid" id="music-grid"></div>
+      <div id="music-status" class="status-banner" style="display:none;"></div>
+    </section>
+
+    <!-- TAB 3: Pipeline Telemetry -->
+    <section id="tab-telemetry" class="tab-panel">
+      <div class="section-head">
+        <h2>Measured Pipeline Runs (<span class="mono">runs.jsonl</span>)</h2>
+        <p>Live aggregation of real model calls, latencies, GPU minutes, and status.</p>
+      </div>
+      <div class="card" style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Stage</th>
+              <th>Models</th>
+              <th>Calls</th>
+              <th>OK</th>
+              <th>Fail / Quota</th>
+              <th>Mean Latency</th>
+              <th>GPU Min</th>
+            </tr>
+          </thead>
+          <tbody id="telemetry-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 4: Family Story Studio -->
+    <section id="tab-family" class="tab-panel">
+      <div class="card">
+        <div class="section-head" style="margin-top:0;">
+          <h2>Tell Your Family Story (No Coding Needed)</h2>
+          <p>Create a structured <span class="mono">story.md</span> or draft storyboard from plain text.</p>
+        </div>
+        <form id="family-form">
+          <div class="form-grid">
+            <div>
+              <label for="f-title">Story Title</label>
+              <input id="f-title" required placeholder="e.g., My Father's Radio Shop">
+            </div>
+            <div>
+              <label for="f-lang">Narration Language</label>
+              <select id="f-lang">
+                <option value="Amharic|am-ET">Amharic (am-ET)</option>
+                <option value="Afaan Oromo|om-ET">Afaan Oromo (om-ET)</option>
+                <option value="Tigrinya|ti-ET">Tigrinya (ti-ET)</option>
+                <option value="Somali|so-SO">Somali (so-SO)</option>
+                <option value="English|en-US">English (en-US)</option>
+              </select>
+            </div>
+            <div>
+              <label for="f-audience">Who is this film for?</label>
+              <input id="f-audience" required placeholder="e.g., My younger cousins and university friends">
+            </div>
+            <div>
+              <label for="f-voice">Narrator Voice</label>
+              <select id="f-voice">
+                <option value="Charon">Charon (Male, calm)</option>
+                <option value="Puck">Puck (Male, younger)</option>
+                <option value="Orus">Orus (Male, firm)</option>
+                <option value="Kore">Kore (Female, firm)</option>
+                <option value="Aoede">Aoede (Female, warm)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:1rem;">
+            <label for="f-story">Write the story in 4–8 short sentences</label>
+            <textarea id="f-story" required placeholder="Who is the story about? What happened? What proverb or feeling should stay with the viewer at the end?"></textarea>
+          </div>
+
+          <div style="margin-top:0.85rem;">
+            <label class="check-row">
+              <input type="checkbox" id="f-real">
+              <span><strong>Consent check:</strong> Does a real person's face or voice appear? (If checked, you must record informed consent in <span class="mono">ETHICS.md</span> before generating.)</span>
+            </label>
+          </div>
+
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:1rem;">
+            <button type="submit" class="btn primary" id="draft-btn">Draft Storyboard</button>
+            <button type="button" class="btn" id="download-story-btn">Download story.md</button>
+          </div>
+          <div id="family-status" class="status-banner" style="display:none;"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 PY ?= python3
 
-.PHONY: film demo radio validate test smoke reference costs clean
+.PHONY: film demo radio validate test smoke reference costs web clean
 
 film:            ## the whole pipeline: validate -> narration -> keyframes -> shots -> music -> assemble
 	$(PY) -m pipeline.run_all
@@ -22,6 +22,9 @@ reference:       ## N options per character, choose a golden reference
 
 costs:           ## aggregate runs.jsonl into the COSTS.md measurement tables
 	$(PY) -m pipeline.report_costs
+
+web:             ## launch local showcase & family story studio at http://127.0.0.1:8000
+	$(PY) -m pipeline.web
 
 test:
 	$(PY) -m unittest discover -s tests -v
