@@ -1,0 +1,16 @@
+{
+  "shot": "s01",
+  "model": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
+  "seed": 2001,
+  "input_hash": "5919276f5c90e10b",
+  "width": 480,
+  "height": 480,
+  "num_frames": 81,
+  "steps": 30,
+  "dtype": "bfloat16",
+  "gpu": "Tesla T4",
+  "latency_s": 2040.8,
+  "gpu_minutes": 34.01,
+  "attempts": 1,
+  "peak_vram_gb": 5.81
+}
