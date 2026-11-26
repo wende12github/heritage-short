@@ -15,13 +15,14 @@
 # Draft low (480x480, 81 frames ~ 3.4 s at 24 fps), finish only the shots you keep.
 # %%
 import json, os, subprocess, sys, time
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 from pathlib import Path
 
 INPUT = next((p.parent for p in Path("/kaggle/input").rglob("jobs.json")), Path(".")) if Path("/kaggle/input").exists() else Path(".")
 OUT = Path("/kaggle/working/clips") if Path("/kaggle/working").exists() else Path("clips")
 OUT.mkdir(parents=True, exist_ok=True)
 WORKERS = int(os.environ.get("WAN_WORKERS", "1"))      # 2 = one process per T4 (needs ~2x system RAM)
-MAX_SHOTS = int(os.environ.get("WAN_MAX_SHOTS", "0"))  # set 1 to test one shot first, 0 for all
+MAX_SHOTS = int(os.environ.get("WAN_MAX_SHOTS", "1"))  # set 1 to test one shot first, 0 for all
 
 
 def install():
@@ -43,9 +44,10 @@ def worker(idx: int, n: int):
     v0 = jobs[0]["video"]
     dtype = torch.float16 if v0.get("dtype") == "float16" else torch.bfloat16
     pipe = WanImageToVideoPipeline.from_pretrained(v0["model"], torch_dtype=dtype)
-    pipe.enable_model_cpu_offload()
+    pipe.enable_sequential_cpu_offload()
     try:
         pipe.vae.enable_tiling()
+        pipe.vae.enable_slicing()
     except Exception:
         pass
     gpu = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu"
@@ -58,26 +60,29 @@ def worker(idx: int, n: int):
         gen = torch.Generator(device="cpu").manual_seed(job["seed"])
         torch.cuda.reset_peak_memory_stats()
         t0, attempts = time.time(), 0
-        for attempts in (1, 2, 3):                      # max three attempts per shot, then move on
+        frame_ladder = [v["num_frames"], min(v["num_frames"], 49), min(v["num_frames"], 33)]
+        used_frames = v["num_frames"]
+        for attempts, nf in enumerate(frame_ladder, 1):  # step down frame count on OOM
             try:
+                used_frames = nf
                 frames = pipe(image=image, prompt=job["motion_prompt"], negative_prompt=v.get("negative_prompt", ""),
-                              height=v["height"], width=v["width"], num_frames=v["num_frames"],
+                              height=v["height"], width=v["width"], num_frames=nf,
                               num_inference_steps=v["steps"], guidance_scale=v.get("guidance_scale", 5.0),
                               generator=gen).frames[0]
                 break
             except torch.cuda.OutOfMemoryError:
-                torch.cuda.empty_cache(); print(f"[{sid}] OOM on attempt {attempts}")
+                torch.cuda.empty_cache(); print(f"[{sid}] OOM at {nf} frames (attempt {attempts})")
         else:
             print(f"[{sid}] FAILED after 3 attempts; the film will use the Ken Burns fallback"); continue
         export_to_video(frames, str(mp4), fps=v["fps"])
         dt = time.time() - t0
         side.write_text(json.dumps({
             "shot": sid, "model": v["model"], "seed": job["seed"], "input_hash": job["input_hash"],
-            "width": v["width"], "height": v["height"], "num_frames": v["num_frames"], "steps": v["steps"],
+            "width": v["width"], "height": v["height"], "num_frames": used_frames, "steps": v["steps"],
             "dtype": str(dtype).split(".")[-1], "gpu": gpu, "latency_s": round(dt, 1),
             "gpu_minutes": round(dt / 60, 2), "attempts": attempts,
             "peak_vram_gb": round(torch.cuda.max_memory_allocated() / 1e9, 2)}, indent=2))
-        print(f"[{sid}] done in {dt:.0f}s")
+        print(f"[{sid}] done ({used_frames} frames) in {dt:.0f}s")
 
 
 if __name__ == "__main__":
