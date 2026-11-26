@@ -5,9 +5,8 @@ with English subtitles, an original score ducked under the voice, an "Made with 
 exports in **9:16** and **16:9**. The film is the output; **the pipeline is the product**: a stranger can clone
 this repo, run one command, and regenerate the film from `storyboard.json`.
 
-> **Status of this repo's story:** `storyboard.json` ships with a clearly marked **placeholder** story
-> (a grandmother's walk to the Dessie market). Replace the story, characters, narration and audience with your own
-> before generating anything real. See `docs/SUBMISSION_CHECKLIST.md`.
+> **Film:** *ተስፋ አለመቁረጥ (Never Give Up)* — a 70.0 s single-character Amharic short (with English subtitles) about persistence,
+> built end-to-end with Gemini 3.8 Flash TTS, Cloudflare FLUX.1 schnell, Wan 2.2 TI2V-5B (Kaggle T4), ACE-Step 1.5, and FFmpeg.
 
 ## Run it
 
@@ -18,6 +17,7 @@ cp .env.example .env                     # add GEMINI_API_KEY, CLOUDFLARE_API_TO
 
 make film          # THE one command: validate -> narration -> keyframes -> shots -> music -> assemble
 make demo          # same pipeline, no keys: placeholder frames + synthetic voice, real FFmpeg assembly
+make web           # local showcase & no-code family story studio (http://127.0.0.1:8000)
 make test          # offline tests: schema, consent gate, caching, "only the edited shot regenerates"
 ```
 
@@ -66,13 +66,14 @@ notebooks/          Kaggle scripts for Wan 2.2 (video) and ACE-Step 1.5 (music)
 runs.jsonl          one line per model call: model, params, seed, latency, GPU-minutes, list-price equivalent
 outputs/            generated images, audio, clips and final cuts (kept so a run can be inspected)
 tests/              offline tests (run with `make test`)
+web/                static showcase & no-code family story studio (`make web` -> `pipeline/web.py`)
 DESIGN.md           audience, intent, the two user tests and what changed because of them
 ARCHITECTURE.md     stages, contracts, caching, failure handling
 EXPERIMENTS.md      hypothesis -> change -> result
 FAILURES.md         what broke, what I tried, what fixed it
 COSTS.md            measured latency/GPU minutes per stage, list-price equivalents
 ETHICS.md           consent record, licences, labelling plan
-docs/               report template, post template, walkthrough script, interview prep, checklist
+docs/               written report (REPORT.md), post template, walkthrough script, interview prep, checklist
 ```
 
 ## Secrets

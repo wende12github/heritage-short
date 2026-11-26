@@ -61,8 +61,14 @@ Wan clip -> Ken Burns on keyframe -> placeholder frame. A narrated, scored, subt
 ## Audio chain
 
 narration (per-shot WAV, placed at `start + lead_in`) -> pre-level to -16 LUFS; score cues placed on their shot ranges with
-crossfades -> pre-level to -24 LUFS; `sidechaincompress` (threshold 0.02, ratio 6, attack 300 ms, release 1500 ms) ducks music
+crossfades -> pre-level to -20 LUFS; `sidechaincompress` (threshold 0.02, ratio 6, attack 300 ms, release 1500 ms) ducks music
 under the voice; sum; two-pass `loudnorm` to -14 LUFS / -1 dBTP; AAC 192k. Values live in `config.mix`.
+
+## Local showcase & family web app (`pipeline/web.py` + `web/`)
+
+`make web` starts a zero-dependency local HTTP studio (`http://127.0.0.1:8000`) serving `web/` with byte-range MP4 streaming,
+a storyboard/telemetry inspector, music selection, and a no-code **Tell Your Story** form (`story.md` export or `storyboard.draft.json`).
+Sensitive files (`.env`, `.git`, `.venv`, `*.key`) are explicitly blocked.
 
 ## Why these choices (decisions worth explaining in the interview)
 

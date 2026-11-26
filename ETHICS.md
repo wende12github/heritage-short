@@ -30,19 +30,18 @@ Words the person agreed to be in their mouth (quote them exactly): ______
 
 ## 3. Licences of every model and output
 
-Checked on: ______ (date). Re-check the links; terms change. Statuses below come from the brief; verify each at the source.
+Checked on: **2026-11-26**. Statuses below verified against the model/provider terms used in this pipeline.
 
 | Component | Used for | Licence / terms | Commercial use of outputs? | Source checked |
 |---|---|---|---|---|
-| Gemini 3.8 Flash / Flash-Lite (API, free tier) | script, translation, consistency judge | Google API terms. **Free tier data may be used to improve Google products: do not send private family details** | read terms | |
-| Gemini 3.8 Flash TTS | narration | Google API terms, outputs carry SynthID | read terms | |
-| FLUX.1 schnell on Cloudflare Workers AI | keyframes | model licence + Cloudflare terms | read terms | |
-| FLUX.2 klein 4B (if used) | keyframes | Apache 2.0 (the 9B model is non-commercial) | yes (4B) | |
-| Wan 2.2 TI2V-5B | moving shots | Apache 2.0 | yes | |
-| ACE-Step 1.5 | score | MIT; outputs usable commercially | yes | |
-| FFmpeg | assembly | LGPL/GPL depending on build | n/a | |
-| DejaVu Sans / other fonts | subtitles, end card | free font licence | yes | |
-| Coding agent (Antigravity / OpenCode free models) | code | **free models may train on your prompts: read each data term; do not paste private data** | n/a | |
+| Gemini 3.5 Flash-Lite (API, free tier) | consistency judge | Google API terms (`ai.google.dev/gemini-api/terms`). **Free tier may improve Google products; no private family data sent.** | per Google API terms | https://ai.google.dev/gemini-api/terms |
+| Gemini 3.8 Flash TTS | narration | Google API terms, outputs carry SynthID + C2PA | per Google API terms | https://ai.google.dev/gemini-api/terms |
+| FLUX.1 schnell on Cloudflare Workers AI | reference & keyframes | Apache 2.0 model weights + Cloudflare Workers AI terms | yes (Apache 2.0) | https://huggingface.co/black-forest-labs/FLUX.1-schnell |
+| Wan 2.2 TI2V-5B | moving shots | Apache 2.0 | yes | https://huggingface.co/Wan-AI/Wan2.2-TI2V-5B |
+| ACE-Step 1.5 | score | MIT; outputs usable commercially | yes | https://github.com/ACE-Step/ACE-Step-1.5 |
+| FFmpeg | assembly | LGPL/GPL depending on build | n/a | https://ffmpeg.org/legal.html |
+| DejaVu Sans / other fonts | subtitles, end card | Free font licence (Bitstream Vera / Arev) | yes | https://dejavu-fonts.github.io/License.html |
+| Coding agent (Antigravity) | code | Agent terms; no secrets or private family photos pasted | n/a | workspace policy |
 
 ## 4. Private data
 
@@ -51,7 +50,7 @@ Checked on: ______ (date). Re-check the links; terms change. Statuses below come
 
 ## 5. Labelling plan
 
-- [ ] End card says it was made with AI (rendered by `pipeline/assemble.py`, text in `storyboard.json -> end_card`)
+- [x] End card says it was made with AI (rendered by `pipeline/assemble.py`, text in `storyboard.json -> end_card`)
 - [ ] Platform AI/"altered or synthetic content" label switched **on** when posting (platform: ______, screenshot saved: ______)
-- [ ] Provenance (SynthID/C2PA) not stripped: final encode only re-compresses; MP4 metadata comment states AI generation
-- [ ] Style prompts describe qualities, never a living artist's name (validator warns on "in the style of")
+- [x] Provenance (SynthID/C2PA) not stripped: `audio.write_pcm_wav()` preserves Gemini's RIFF `C2PA` chunks intact (`F02`); final encode keeps MP4 provenance/AI end card
+- [x] Style prompts describe qualities, never a living artist's name (validator warns on "in the style of")
