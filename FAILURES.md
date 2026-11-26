@@ -48,6 +48,14 @@
 - **Evidence:** Kaggle traceback `ERROR: Package 'ace-step' requires a different Python: 3.13.16 not in '<3.13,>=3.11'` on `2026-11-26`.
 - **Lesson / what I would do first next time:** Check `requires-python` in a cloned repo's `pyproject.toml` and provision Python 3.11 via `uv` when Kaggle runs 3.13.
 
+### F05 Wan 2.2 TI2V-5B OOM on Kaggle T4 (15 GB VRAM) with model CPU offload (2026-11-26, shots, Kaggle)
+- **Symptom:** After loading all 5 checkpoint shards (`480x480`, `81` frames, `bfloat16`), step `0/30` threw `OutOfMemoryError` on all 3 attempts for `s01`–`s09` (`[s01] OOM on attempt 1..3`, `FAILED after 3 attempts`).
+- **Impact:** All 9 shots failed to render on the first Kaggle T4 run, triggering Ken Burns fallbacks.
+- **Hypotheses and what I tried (in order):** `enable_model_cpu_offload()` holds the full 5B transformer + activations on one 15 GB T4 at once; also retrying identical parameters 3 times hits the exact same peak VRAM.
+- **Fix or workaround:** Updated `notebooks/wan22_kaggle.py` to set `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`, switch to `pipe.enable_sequential_cpu_offload()` + `pipe.vae.enable_slicing()`, and step down `num_frames` (`81 -> 49 -> 33`) across retry attempts.
+- **Evidence:** Kaggle output on `2026-11-26T19:58` showing `0/30 [00:13<?, ?it/s]` followed by `OOM on attempt 1..3` for `s01`–`s09`.
+- **Lesson / what I would do first next time:** Test `MAX_SHOTS=1` first on T4 and use `enable_sequential_cpu_offload()` with adaptive frame-count fallback.
+
 ## Watch-list: likely failure points for this stack (not yet observed)
 
 - Model ids from the brief ("Gemini 3.8 Flash TTS") differ from what `GET /models` returns -> `make smoke` lists real ids.
